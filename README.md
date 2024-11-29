@@ -1,4 +1,4 @@
-# My Project Name
+# Data game 1
 
 This project is a simple rest api created using java spring framework for Moroccan medicines. 
 
