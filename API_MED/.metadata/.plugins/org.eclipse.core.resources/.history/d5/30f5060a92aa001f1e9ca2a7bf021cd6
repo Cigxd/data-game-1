@@ -1,0 +1,4 @@
+package com.medicals.api.core;
+ublic @interface Entity {
+
+}

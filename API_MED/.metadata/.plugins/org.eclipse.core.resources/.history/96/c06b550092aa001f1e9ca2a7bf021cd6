@@ -1,0 +1,5 @@
+package com.medicals.api.core;
+
+public class Medicine {
+    
+}

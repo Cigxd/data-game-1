@@ -1,0 +1,110 @@
+package com.medicals.api.threads.Handler;
+
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.*;
+import java.util.*;
+
+
+public class MyFilesHandler {
+    // Function to download a file from the given URL and save it to the specified path
+    public String downloadFile(String fileURL, String savePath) throws IOException {
+        URL url = new URL(fileURL);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        
+        // Set the request method and timeout values
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setReadTimeout(5000);
+        
+        // Get the input stream from the connection
+        try (InputStream inputStream = httpURLConnection.getInputStream();
+             FileOutputStream fileOutputStream = new FileOutputStream(savePath)) {
+            
+            // Buffer for reading the file
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            
+            // Write data from input stream to output file
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, bytesRead);
+            }
+        } finally {
+            httpURLConnection.disconnect();
+        }
+        
+        System.out.println("File downloaded to: " + savePath);
+        return savePath;
+    }
+    public String convertXlsxToJson(String xlsxFilePath, String jsonFilePath) throws IOException, InvalidFormatException {
+        // Open the Excel file
+        FileInputStream fis = new FileInputStream(xlsxFilePath);
+        Workbook workbook = WorkbookFactory.create(fis);
+        Sheet sheet = workbook.getSheetAt(0);  // Get the first sheet
+
+        // Create a list to store JSON objects
+        List<Map<String, Object>> jsonList = new ArrayList<>();
+
+        // Assuming the first row contains the headers
+        Row headerRow = sheet.getRow(0);
+        int numColumns = headerRow.getPhysicalNumberOfCells();
+        List<String> headers = new ArrayList<>();
+        for (int i = 0; i < numColumns; i++) {
+            headers.add(headerRow.getCell(i).getStringCellValue());
+        }
+
+        // Iterate over the rows, starting from row 1 (data rows)
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            Row row = sheet.getRow(i);
+            Map<String, Object> rowData = new HashMap<>();
+            for (int j = 0; j < numColumns; j++) {
+                Cell cell = row.getCell(j);
+                String header = headers.get(j);
+
+                // Handle different cell types (String, Numeric, etc.)
+                switch (cell.getCellType()) {
+                    case STRING:
+                        rowData.put(header, cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        rowData.put(header, cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        rowData.put(header, cell.getBooleanCellValue());
+                        break;
+                    default:
+                        rowData.put(header, null);
+                        break;
+                }
+            }
+            jsonList.add(rowData);
+        }
+
+        // Convert the list to JSON and write it to the specified path
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonFile = new File(jsonFilePath);
+        jsonFile.getParentFile().mkdirs();  // Ensure the directories exist
+
+        // Writing JSON to file in pretty format
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, jsonList);
+
+        // Close the resources
+        workbook.close();
+        fis.close();
+
+        // Print the success message with line breaks to the console
+        System.out.println("\nJSON updated successfully!\n");
+        return jsonFilePath;
+    }
+    public void insertDataIntoMongoDb() {
+    	
+    }
+}

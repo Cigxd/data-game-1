@@ -1,0 +1,36 @@
+package com.medicals.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+public class MedicalsApplication {
+
+    public static void main(String[] args) throws InterruptedException {
+        // Create and run the first Spring Boot application in a new thread
+        Thread app1Thread = new Thread(() -> {
+            SpringApplication app1 = new SpringApplication(MedicalsApplication.class);
+            app1.run(args);
+        });
+
+        // Create and run the second Spring Boot application in another thread
+        Thread app2Thread = new Thread(() -> {
+            SpringApplication app2 = new SpringApplication(App2.class); // App2 class must be defined
+            app2.run(args);
+        });
+
+        // Start both applications
+        app1Thread.start();
+        app2Thread.start();
+
+        // Wait for both applications to finish
+        app1Thread.join();
+        app2Thread.join();
+    }
+}
+
+@SpringBootApplication
+class App2 {
+    public static void main(String[] args) {
+        SpringApplication.run(App2.class, args);
+    }
+}

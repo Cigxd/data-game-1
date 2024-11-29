@@ -1,0 +1,31 @@
+package com.medicals.api.threads.Handler;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class MyFilesHandler {
+    // Function to download a file from the given URL and save it to the specified path
+    public static void downloadFile(String fileUrl, String savePath) {
+        try {
+            // Create URL object from the provided file URL
+            URL url = new URL(fileUrl);
+
+            // Download the file and save it to the specified path
+            Files.copy(url.openStream(), Paths.get(savePath));
+
+            System.out.println("File downloaded successfully to: " + savePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to download file.");
+        }
+    }
+    public String convertJson() {
+    	return "";
+    }
+    public void insertDataIntoMongoDb() {
+    	
+    }
+}

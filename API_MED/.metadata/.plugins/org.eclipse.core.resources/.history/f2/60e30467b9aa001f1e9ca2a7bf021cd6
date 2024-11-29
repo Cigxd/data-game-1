@@ -1,0 +1,13 @@
+package com.medicals.api.threads;
+
+public class MyFilesHandler {
+    public String downloadFile() {
+    	
+    }
+    public String convertJson() {
+    	
+    }
+    public void insertDataIntoMongoDB() {
+    	
+    }
+}

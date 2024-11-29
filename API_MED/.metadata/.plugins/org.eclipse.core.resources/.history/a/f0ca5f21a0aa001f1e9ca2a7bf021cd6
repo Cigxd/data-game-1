@@ -1,0 +1,11 @@
+package com.medicals.api.core;
+
+import java.util.List;
+
+public interface MedicineServiceImplementation {
+	
+    public List<Medicine> getAll();
+    public List<Medicine> getByName(String nom);
+    public Medicine getByCode(int code);
+    
+}

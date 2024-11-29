@@ -1,0 +1,5 @@
+package com.medicals.api.threads;
+
+public class FilesHandler {
+
+}

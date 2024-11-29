@@ -1,0 +1,33 @@
+package com.medicals.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+@SpringBootApplication
+public class MedicalsApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MedicalsApplication.class, args);
+    }
+
+
+    public void startAdditionalThread() {
+        // Creating a new thread for some other task
+        Thread thread = new Thread(() -> {
+            // Your additional task here
+            while (true) {
+                System.out.println("Additional thread running...");
+                try {
+                    Thread.sleep(1000); // simulate task
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+
+        // Start the additional thread
+        thread.setDaemon(true); // Optional: Set as a daemon thread to exit when the main thread ends
+        thread.start();
+    }
+}

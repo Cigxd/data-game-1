@@ -1,0 +1,43 @@
+package com.medicals.api;
+
+import java.time.LocalTime;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MedicalsApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(MedicalsApplication.class, args);
+
+
+        Thread additionalThread = new Thread(() -> {
+
+            while (true) {
+            	//shit to do
+
+                    LocalTime now = LocalTime.now();
+
+                    // Check if the current time matches the target time
+                    if (now.getHour() == 23 && now.getMinute() == 46 && now.getSecond() == 00) {
+                        System.out.println("Hello at " + now);
+                        break; // Exit the loop after the job is done
+                    }
+
+                    // Sleep for a short time to reduce CPU usage
+                    try {
+                        Thread.sleep(500); // Check every half-second
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                
+        });
+
+        // Start the additional thread
+        additionalThread.start();
+    }
+}

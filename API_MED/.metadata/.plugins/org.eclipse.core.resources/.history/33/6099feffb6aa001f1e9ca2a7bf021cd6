@@ -1,0 +1,45 @@
+package com.medicals.api;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MedicalsApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(MedicalsApplication.class, args);
+
+
+        Thread additionalThread = new Thread(() -> {
+        	LocalDateTime now = LocalDateTime.now();
+
+            // Define a formatter
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            while (true) {
+            	//shit to do
+                    
+                    // Check if the current time matches the target time
+                    
+                // Get the current date and time
+                
+
+                // Format and display the date and time
+                String formattedDateTime = now.format(formatter);
+                System.out.println("Current date and time: " + formattedDateTime);
+                        
+                    
+
+                }
+
+                
+        });
+
+        // Start the additional thread
+        additionalThread.start();
+    }
+}

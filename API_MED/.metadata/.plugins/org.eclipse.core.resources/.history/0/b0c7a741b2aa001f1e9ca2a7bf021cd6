@@ -1,0 +1,29 @@
+package com.medicals.api;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MedicalsApplication {
+
+    public static void main(String[] args) {
+        // Start Spring Boot application in the main thread
+        SpringApplication.run(MedicalsApplication.class, args);
+
+        // Start an additional thread for other tasks
+        Thread additionalThread = new Thread(() -> {
+            // Your additional task here
+            while (true) {
+                System.out.println("Additional thread is running...");
+                try {
+                    Thread.sleep(1000); // simulate task
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+
+        // Start the additional thread
+        additionalThread.start();
+    }
+}

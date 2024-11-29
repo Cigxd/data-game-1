@@ -1,0 +1,8 @@
+package com.medicals.api.core;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class MedicineService {
+
+}

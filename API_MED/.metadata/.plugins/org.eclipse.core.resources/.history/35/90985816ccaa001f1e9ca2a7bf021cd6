@@ -1,0 +1,30 @@
+package com.medicals.api;
+
+
+
+
+import java.io.IOException;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.medicals.api.threads.Handler.MyFilesHandler;
+@SpringBootApplication
+public class MedicalsApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(MedicalsApplication.class, args);
+
+
+        Thread additionalThread = new Thread(() -> {
+        	
+        	MyFilesHandler handler = new MyFilesHandler();
+           
+  
+        });
+
+        // Start the additional thread
+        additionalThread.start();
+    }
+}

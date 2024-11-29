@@ -1,0 +1,5 @@
+package com.medicals.api.core;
+@Entity
+public class Medicine {
+    
+}

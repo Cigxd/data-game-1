@@ -1,0 +1,32 @@
+package com.medicals.api.core;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MedicineService implements MedicineServiceImplementation{
+	
+	@Autowired
+	MedicineRepository medicineRepository;
+
+	@Override
+	public List<Medicine> getAll() {
+		return medicineRepository.findAll();
+	}
+
+	@Override
+	public Medicine getByCode(int code) {
+		return medicineRepository.findById(code).orElse(null);
+	}
+
+	@Override
+	public List<Medicine> getByName(String nom) {
+		// TODO Auto-generated method stub
+		return medicineRepository.findByNom(nom);
+	}
+
+ 
+}

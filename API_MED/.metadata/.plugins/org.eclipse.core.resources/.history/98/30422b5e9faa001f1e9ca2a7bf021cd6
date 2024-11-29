@@ -1,0 +1,36 @@
+package com.medicals.api.core;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MedicineController {
+	@Autowired
+	MedicineService medicineService;
+	
+	@GetMapping("/medicines")
+	public ResponseEntity<List<Medicine>> getAll() {
+		return new ResponseEntity<List<Medicine>>(medicineService.getAll(), HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/medicines/{nom}")
+	public ResponseEntity<List<Medicine>> getByName(@PathVariable String nom) {
+		if(medicineService.getByName(nom) == null)
+		    return new ResponseEntity<List<Medicine>>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<List<Medicine>>(medicineService.getByName(nom), HttpStatus.OK);
+	}
+	
+	@GetMapping("/medicines/{code}")
+	public ResponseEntity<Medicine> getByCode(@PathVariable int code) {
+		if(medicineService.getByCode(code) == null)
+		    return new ResponseEntity<Medicine>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Medicine>(medicineService.getByCode(code),HttpStatus.OK);
+	}
+}

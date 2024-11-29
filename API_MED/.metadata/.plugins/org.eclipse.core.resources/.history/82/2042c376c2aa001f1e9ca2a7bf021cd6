@@ -1,0 +1,46 @@
+package com.medicals.api.threads.Handler;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class MyFilesHandler {
+    // Function to download a file from the given URL and save it to the specified path
+    public static void downloadFile(String fileURL, String savePath) throws IOException {
+        URL url = new URL(fileURL);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        
+        // Set the request method and timeout values
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setReadTimeout(5000);
+        
+        // Get the input stream from the connection
+        try (InputStream inputStream = httpURLConnection.getInputStream();
+             FileOutputStream fileOutputStream = new FileOutputStream(savePath)) {
+            
+            // Buffer for reading the file
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            
+            // Write data from input stream to output file
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, bytesRead);
+            }
+        } finally {
+            httpURLConnection.disconnect();
+        }
+        
+        System.out.println("File downloaded to: " + savePath);
+    }
+    public String convertJson() {
+    	return "";
+    }
+    public void insertDataIntoMongoDb() {
+    	
+    }
+}
